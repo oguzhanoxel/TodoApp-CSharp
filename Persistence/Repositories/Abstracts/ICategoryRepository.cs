@@ -3,7 +3,7 @@ using TodoApp.Domain.Models;
 
 namespace Persistence.Repositories.Abstracts;
 
-public interface ITodoRepository : IRepository<Todo, int>
+public interface ICategoryRepository : IRepository<Category, int>
 {
 
 }
