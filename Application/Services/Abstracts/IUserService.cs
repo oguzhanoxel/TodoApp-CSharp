@@ -5,6 +5,6 @@ namespace Application.Services.Abstracts;
 
 public interface IUserService
 {
-	Task<DataResult<List<UserResponseDto>>> GetAllAsync();
-	Task<DataResult<UserResponseDto>> GetByIdAsync(string id);
+	Task<Result<List<UserResponseDto>>> GetAllAsync();
+	Task<Result<UserResponseDto>> GetByIdAsync(string id);
 }

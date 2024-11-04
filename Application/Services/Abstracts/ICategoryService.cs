@@ -6,9 +6,9 @@ namespace Application.Services.Abstracts;
 
 public interface ICategoryService
 {
-	DataResult<CategoryResponseDto> Create(CreateCategoryRequestDto dto);
-	DataResult<CategoryResponseDto> Update(int id, UpdateCategoryRequestDto dto);
-	DataResult<CategoryResponseDto> Delete(int id);
-	DataResult<List<CategoryResponseDto>> GetAll();
-	DataResult<CategoryResponseDto> GetById(int id);
+	Result<CategoryResponseDto> Create(CreateCategoryRequestDto dto);
+	Result<CategoryResponseDto> Update(int id, UpdateCategoryRequestDto dto);
+	Result<CategoryResponseDto> Delete(int id);
+	Result<List<CategoryResponseDto>> GetAll();
+	Result<CategoryResponseDto> GetById(int id);
 }

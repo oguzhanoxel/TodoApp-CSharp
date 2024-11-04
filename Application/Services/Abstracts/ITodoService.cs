@@ -6,10 +6,10 @@ namespace Application.Services.Abstracts;
 
 public interface ITodoService
 {
-	DataResult<TodoResponseDto> Create(CreateTodoRequestDto dto);
-	DataResult<TodoResponseDto> Update(int id, UpdateTodoRequestDto dto);
-	DataResult<TodoResponseDto> Delete(int id);
-	DataResult<List<TodoResponseDto>> GetAll();
-	DataResult<List<TodoResponseDto>> GetAllByUserEmail(string email);
-	DataResult<TodoResponseDto> GetById(int id);
+	Result<TodoResponseDto> Create(CreateTodoRequestDto dto);
+	Result<TodoResponseDto> Update(int id, UpdateTodoRequestDto dto);
+	Result<TodoResponseDto> Delete(int id);
+	Result<List<TodoResponseDto>> GetAll();
+	Result<List<TodoResponseDto>> GetAllByUserEmail(string email);
+	Result<TodoResponseDto> GetById(int id);
 }

@@ -15,3 +15,14 @@ public class Result
 		Message = message;
 	}
 }
+
+public class Result<T> : Result
+{
+	public T? Data { get; }
+
+	public Result(bool isSuccess, HttpStatusCode statusCode, T? data = default, string? message = null)
+		: base(isSuccess, statusCode, message)
+	{
+		Data = data;
+	}
+}

@@ -21,15 +21,8 @@ namespace WebApi
 			builder.Services.AddApplicationServices();
 			builder.Services.AddPersistenceServices(builder.Configuration);
 
-			builder.Services.AddAuthorization(options =>
-			{
-				options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
-				options.AddPolicy("User", policy => policy.RequireRole("User"));
-			});
-
 			builder.Services.AddIdentity<User, IdentityRole>()
-				.AddEntityFrameworkStores<EfCoreDbContext>()
-				.AddDefaultTokenProviders();
+				.AddEntityFrameworkStores<EfCoreDbContext>();
 
 			builder.Services.AddAutoMapper(typeof(MappingProfiles));
 
@@ -49,6 +42,8 @@ namespace WebApi
 			app.UseCustomExceptionMiddleware(); // ExceptionMiddleware
 
 			app.UseHttpsRedirection();
+
+			app.UseAuthentication();
 
 			app.UseAuthorization();
 

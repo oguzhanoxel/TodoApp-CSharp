@@ -3,7 +3,6 @@ using AutoMapper;
 using Core.Results;
 using Domain.Dtos.User.RequestDtos;
 using Domain.Dtos.User.ResponseDtos;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using TodoApp.Domain.Models;
 
@@ -22,7 +21,7 @@ public class AuthService : IAuthService
 		_mapper = mapper;
 	}
 
-	public async Task<DataResult<UserResponseDto>> LoginAsync(LoginRequestDto dto)
+	public async Task<Result<UserResponseDto>> LoginAsync(LoginRequestDto dto)
 	{
 		User? user = await _userManager.FindByEmailAsync(dto.Email);
 		bool isPasswordValid = await _userManager.CheckPasswordAsync(user, dto.Password);
@@ -49,11 +48,31 @@ public class AuthService : IAuthService
 			message: "Logout Success.");
 	}
 
-	public async Task<DataResult<UserResponseDto>> RegisterAsync(RegisterRequestDto dto)
+	public async Task<Result<UserResponseDto>> RegisterAsync(RegisterRequestDto dto)
 	{
 		User mapped = _mapper.Map<User>(dto);
 
 		var created = await _userManager.CreateAsync(mapped, dto.Password);
+		await _userManager.AddToRoleAsync(mapped, "User");
+
+		UserResponseDto response = _mapper.Map<UserResponseDto>(mapped);
+
+		if (created.Succeeded) return ResultFactory.Success(
+			response,
+			statusCode: System.Net.HttpStatusCode.OK);
+
+		return ResultFactory.Failure<UserResponseDto>(
+			null,
+			statusCode: System.Net.HttpStatusCode.BadRequest,
+			message: string.Join(", ", created.Errors.Select(e => e.Description)));
+	}
+
+	public async Task<Result<UserResponseDto>> CreateAdminAsync(RegisterRequestDto dto)
+	{
+		User mapped = _mapper.Map<User>(dto);
+
+		var created = await _userManager.CreateAsync(mapped, dto.Password);
+		await _userManager.AddToRoleAsync(mapped, "Admin");
 
 		UserResponseDto response = _mapper.Map<UserResponseDto>(mapped);
 

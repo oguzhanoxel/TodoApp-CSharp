@@ -27,7 +27,7 @@ public class CategoryService : ICategoryService
 		_businessRules = businessRules;
 	}
 
-	public DataResult<CategoryResponseDto> Create(CreateCategoryRequestDto dto)
+	public Result<CategoryResponseDto> Create(CreateCategoryRequestDto dto)
 	{
 		var result = _createValidator.Validate(dto);
 		if (!result.IsValid) throw new ValidationException(result.Errors);
@@ -41,7 +41,7 @@ public class CategoryService : ICategoryService
 			statusCode: System.Net.HttpStatusCode.Created);
 	}
 
-	public DataResult<CategoryResponseDto> Delete(int id)
+	public Result<CategoryResponseDto> Delete(int id)
 	{
 		_businessRules.CategoryShouldExistWhenRequested(id);
 		Category? category = _categoryRepository.Get(x => x.Id == id);
@@ -53,7 +53,7 @@ public class CategoryService : ICategoryService
 			statusCode: System.Net.HttpStatusCode.OK);
 	}
 
-	public DataResult<List<CategoryResponseDto>> GetAll()
+	public Result<List<CategoryResponseDto>> GetAll()
 	{
 		var categories = _categoryRepository.GetAll();
 		List<CategoryResponseDto> response = _mapper.Map<List<CategoryResponseDto>>(categories);
@@ -62,7 +62,7 @@ public class CategoryService : ICategoryService
 			statusCode: System.Net.HttpStatusCode.OK);
 	}
 
-	public DataResult<CategoryResponseDto> GetById(int id)
+	public Result<CategoryResponseDto> GetById(int id)
 	{
 		_businessRules.CategoryShouldExistWhenRequested(id);
 		Category? category = _categoryRepository.Get(x => x.Id == id);
@@ -73,7 +73,7 @@ public class CategoryService : ICategoryService
 			statusCode: System.Net.HttpStatusCode.OK);
 	}
 
-	public DataResult<CategoryResponseDto> Update(int id, UpdateCategoryRequestDto dto)
+	public Result<CategoryResponseDto> Update(int id, UpdateCategoryRequestDto dto)
 	{
 		var result = _updateValidator.Validate(dto);
 		if (!result.IsValid) throw new ValidationException(result.Errors);

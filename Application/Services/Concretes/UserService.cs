@@ -21,7 +21,7 @@ public class UserService : IUserService
 		_businessRules = businessRules;
 	}
 
-	public async Task<DataResult<List<UserResponseDto>>> GetAllAsync()
+	public async Task<Result<List<UserResponseDto>>> GetAllAsync()
 	{
 		List<User> users = _userManager.Users.ToList();
 		List<UserResponseDto> response = _mapper.Map<List<UserResponseDto>>(users);
@@ -31,7 +31,7 @@ public class UserService : IUserService
 			statusCode: System.Net.HttpStatusCode.OK);
 	}
 
-	public async Task<DataResult<UserResponseDto>> GetByIdAsync(string id)
+	public async Task<Result<UserResponseDto>> GetByIdAsync(string id)
 	{
 		await _businessRules.UserShouldExistWhenRequestedAsync(id);
 		User? user = await _userManager.FindByIdAsync(id);

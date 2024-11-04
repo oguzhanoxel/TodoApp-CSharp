@@ -27,7 +27,7 @@ public class TodoService : ITodoService
 		_businessRules = businessRules;
 	}
 
-	public DataResult<TodoResponseDto> Create(CreateTodoRequestDto dto)
+	public Result<TodoResponseDto> Create(CreateTodoRequestDto dto)
 	{
 		var result = _createValidator.Validate(dto);
 
@@ -44,7 +44,7 @@ public class TodoService : ITodoService
 		}
 	}
 
-	public DataResult<TodoResponseDto> Delete(int id)
+	public Result<TodoResponseDto> Delete(int id)
 	{
 		_businessRules.TodoShouldExistWhenRequested(id);
 		Todo? todo = _todoRepository.Get(x => x.Id == id);
@@ -56,7 +56,7 @@ public class TodoService : ITodoService
 			statusCode: System.Net.HttpStatusCode.OK);
 	}
 
-	public DataResult<List<TodoResponseDto>> GetAll()
+	public Result<List<TodoResponseDto>> GetAll()
 	{
 		var todos = _todoRepository.GetAll();
 		List<TodoResponseDto> response = _mapper.Map<List<TodoResponseDto>>(todos);
@@ -66,7 +66,7 @@ public class TodoService : ITodoService
 			statusCode: System.Net.HttpStatusCode.OK);
 	}
 
-	public DataResult<List<TodoResponseDto>> GetAllByUserEmail(string email)
+	public Result<List<TodoResponseDto>> GetAllByUserEmail(string email)
 	{
 		var todos = _todoRepository.GetAll(x => x.User.Email == email);
 		List<TodoResponseDto> response = _mapper.Map<List<TodoResponseDto>>(todos);
@@ -76,7 +76,7 @@ public class TodoService : ITodoService
 			statusCode: System.Net.HttpStatusCode.OK);
 	}
 
-	public DataResult<TodoResponseDto> GetById(int id)
+	public Result<TodoResponseDto> GetById(int id)
 	{
 		_businessRules.TodoShouldExistWhenRequested(id);
 		Todo? todo = _todoRepository.Get(x => x.Id == id);
@@ -87,7 +87,7 @@ public class TodoService : ITodoService
 			statusCode: System.Net.HttpStatusCode.OK);
 	}
 
-	public DataResult<TodoResponseDto> Update(int id, UpdateTodoRequestDto dto)
+	public Result<TodoResponseDto> Update(int id, UpdateTodoRequestDto dto)
 	{
 		var result = _updateValidator.Validate(dto);
 

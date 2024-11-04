@@ -38,6 +38,12 @@ public class EfCoreDbContext : IdentityDbContext
 			new Category { Id = 5, Name = "Meme Wars" }
 		};
 
+		var roles = new List<IdentityRole>
+		{
+			new IdentityRole { Id = Guid.NewGuid().ToString(), Name = "Admin", NormalizedName = "ADMIN"},
+			new IdentityRole { Id = Guid.NewGuid().ToString(), Name = "User", NormalizedName = "USER"},
+		};
+
 		var users = new List<User>
 		{
 			new User { Id = Guid.NewGuid().ToString(), FirstName = "Joseph", LastName = "Joestar", Email = "joseph@jojo.com", UserName = "joseph" },
@@ -87,7 +93,7 @@ public class EfCoreDbContext : IdentityDbContext
 			new Todo { Id = 20, Title = "Plan a trip to the Joestar family mansion", Description = "I need to find some cool artifacts!", StartDate = DateTime.Now, EndDate = DateTime.Now.AddDays(20), CategoryId = 4, UserId = users[0].Id.ToString() }
 		};
 
-
+		modelBuilder.Entity<IdentityRole>().HasData(roles);
 		modelBuilder.Entity<Category>().HasData(categories);
 		modelBuilder.Entity<User>().HasData(users);
 		modelBuilder.Entity<Todo>().HasData(todos);
