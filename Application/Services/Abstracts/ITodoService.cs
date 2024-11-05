@@ -10,6 +10,7 @@ public interface ITodoService
 	Result<TodoResponseDto> Update(int id, UpdateTodoRequestDto dto);
 	Result<TodoResponseDto> Delete(int id);
 	Result<List<TodoResponseDto>> GetAll();
+	Result<List<TodoResponseDto>> GetAllByFilter(string email = null, string filter = null);
 	Result<List<TodoResponseDto>> GetAllByUserEmail(string email);
 	Result<TodoResponseDto> GetById(int id);
 }

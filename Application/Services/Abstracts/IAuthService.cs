@@ -8,6 +8,6 @@ public interface IAuthService
 {
 	Task<Result<UserResponseDto>> RegisterAsync(RegisterRequestDto dto);
 	Task<Result<UserResponseDto>> CreateAdminAsync(RegisterRequestDto dto);
-	Task<Result<UserResponseDto>> LoginAsync(LoginRequestDto dto);
+	Task<Result> LoginAsync(LoginRequestDto dto);
 	Task<Result> LogoutAsync();
 }

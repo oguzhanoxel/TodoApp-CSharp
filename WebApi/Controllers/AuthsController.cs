@@ -1,5 +1,6 @@
 ﻿using Application.Services.Abstracts;
 using Domain.Dtos.User.RequestDtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers;
@@ -24,6 +25,7 @@ public class AuthsController : ControllerBase
 	}
 
 	[HttpPost("createadmin")]
+	[Authorize(Roles = "Admin")]
 	public async Task<IActionResult> CreateAdmin([FromBody] RegisterRequestDto dto)
 	{
 		var result = await _authService.CreateAdminAsync(dto);

@@ -21,13 +21,12 @@ public class AuthService : IAuthService
 		_mapper = mapper;
 	}
 
-	public async Task<Result<UserResponseDto>> LoginAsync(LoginRequestDto dto)
+	public async Task<Result> LoginAsync(LoginRequestDto dto)
 	{
 		User? user = await _userManager.FindByEmailAsync(dto.Email);
 		bool isPasswordValid = await _userManager.CheckPasswordAsync(user, dto.Password);
 
-		if (user is null || !isPasswordValid) return ResultFactory.Failure<UserResponseDto>(
-			null,
+		if (user is null || !isPasswordValid) return ResultFactory.Failure(
 			statusCode: System.Net.HttpStatusCode.Unauthorized,
 			message: "Invalid Email Or Password.");
 
@@ -37,6 +36,7 @@ public class AuthService : IAuthService
 
 		return ResultFactory.Success(
 			response,
+			message: "Login Success.",
 			statusCode: System.Net.HttpStatusCode.OK);
 	}
 

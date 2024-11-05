@@ -66,6 +66,23 @@ public class TodoService : ITodoService
 			statusCode: System.Net.HttpStatusCode.OK);
 	}
 
+	public Result<List<TodoResponseDto>> GetAllByFilter(string email = null, string filter = null)
+	{
+		var todos = _todoRepository.GetAll();
+
+		if (!string.IsNullOrEmpty(email)) todos = todos.Where(x => x.User.Email.Equals(email, StringComparison.OrdinalIgnoreCase)).ToList();
+
+		if (!string.IsNullOrEmpty(filter)) todos = todos.Where(x => x.Title.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
+											 x.Description.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
+											 x.Category.Name.Contains(filter, StringComparison.OrdinalIgnoreCase)).ToList();
+		
+		List<TodoResponseDto> response = _mapper.Map<List<TodoResponseDto>>(todos);
+
+		return ResultFactory.Success(
+			response,
+			statusCode: System.Net.HttpStatusCode.OK);
+	}
+
 	public Result<List<TodoResponseDto>> GetAllByUserEmail(string email)
 	{
 		var todos = _todoRepository.GetAll(x => x.User.Email == email);

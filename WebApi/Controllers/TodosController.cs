@@ -1,5 +1,6 @@
 ﻿using Application.Services.Abstracts;
 using Domain.Dtos.Todo.RequestDtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers;
@@ -16,6 +17,8 @@ public class TodosController : ControllerBase
 	}
 
 	[HttpPost]
+	[Authorize(Roles = "Admin")]
+	[Authorize(Roles = "User")]
 	public IActionResult Create([FromBody] CreateTodoRequestDto dto)
 	{
 		var result = _todoService.Create(dto);
@@ -23,6 +26,8 @@ public class TodosController : ControllerBase
 	}
 
 	[HttpPut("{id:int}")]
+	[Authorize(Roles = "Admin")]
+	[Authorize(Roles = "User")]
 	public IActionResult Update(int id, [FromBody] UpdateTodoRequestDto dto)
 	{
 		var result = _todoService.Update(id, dto);
@@ -31,6 +36,8 @@ public class TodosController : ControllerBase
 	}
 
 	[HttpDelete("{id:int}")]
+	[Authorize(Roles = "Admin")]
+	[Authorize(Roles = "User")]
 	public IActionResult Delete([FromRoute] int id)
 	{
 		var result = _todoService.Delete(id);
@@ -42,6 +49,13 @@ public class TodosController : ControllerBase
 	public IActionResult GetAll()
 	{
 		var result = _todoService.GetAll();
+		return Ok(result);
+	}
+
+	[HttpGet("filtered")]
+	public IActionResult GetAllByFilter([FromQuery] string email = "", [FromQuery] string filter = "")
+	{
+		var result = _todoService.GetAllByFilter(email, filter);
 		return Ok(result);
 	}
 
